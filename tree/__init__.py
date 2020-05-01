@@ -8,7 +8,6 @@ def tree_a(name):
         groupName=name,
         groupReference=True,
     )
-    print("foooooo {}".format(foo))
     return foo
 
 def ranGernerator(_):    
