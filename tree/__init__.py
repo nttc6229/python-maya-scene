@@ -1,24 +1,20 @@
 import os
 from maya import cmds
 
-def tree_a(name):
-    foo = cmds.file(
-        os.path.join(os.path.dirname(__file__), "./models/Fir_Tree.obj"),
-        i=True,
-        groupName=name,
-        groupReference=True,
-    )
-    return foo
+def load_object(name):
+    scene_objects = cmds.ls()
+    cmds.file(os.path.join(os.path.dirname(__file__), "models/{}.obj".format(name)), i=True, prompt=True)
+    new_scene_objects = cmds.ls()
+    new = set(new_scene_objects) - set(scene_objects)
+    return list(new)
 
 def ranGernerator(_):    
     vertexlist = cmds.ls(selection = True, fl= True)
     for i in vertexlist:
         myselposition = cmds.xform(i, query=True, worldSpace=True, translation=True)
-        name = "foo"
-        tree_a(name)
-        cmds.move(myselposition[0], myselposition[1], myselposition[2], name)
-
-
+        obj = load_object("carrot")[0]
+        print(obj)
+        cmds.move(myselposition[0], myselposition[1], myselposition[2], obj)
 
 def init():
     if cmds.window("creatwin",exists = True):
